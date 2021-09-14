@@ -13,6 +13,13 @@ public class IndexSuflet implements Surflet {
             response.append("</head>\n");
 
             response.append("<body>\n");
+            response.append("<form action=\"/index.html\" method=\"get\">\n");
+
+                response.append("<label for=\"fname\">First name:</label>\n");
+                response.append("<input type=\"text\" id=\"fname\" name=\"name\"><br><br>\n");
+                response.append("<input type=\"submit\" value=\"Submit\">\n");
+
+            response.append("</form>\n");
             response.append("<h1>Hallo " + name + "</h1>\n");
             response.append("</body>\n");
 
