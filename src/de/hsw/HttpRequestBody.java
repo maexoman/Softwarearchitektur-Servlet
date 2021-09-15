@@ -1,3 +1,5 @@
+package de.hsw;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
@@ -148,7 +150,7 @@ public class HttpRequestBody {
 
     @Override
     public String toString() {
-        return "HttpRequestBody{" +
+        return "de.hsw.HttpRequestBody{" +
                     "data=" + Arrays.toString(data) +
                 '}';
     }

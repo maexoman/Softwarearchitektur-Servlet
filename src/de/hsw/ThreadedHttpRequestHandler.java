@@ -1,23 +1,16 @@
+package de.hsw;
+
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ThreadedHttpRequestHandler implements Runnable {
 
-    private static final Map<String, Surflet> MAPPER = new HashMap<>();
-    {
-        MAPPER.put("/", new IndexSuflet());
-        MAPPER.put("/index.html", new IndexSuflet());
-        MAPPER.put("/404.html", new Error404Surflet());
-        MAPPER.put("/doSomething", new SomePostThingy());
-        MAPPER.put("/sse", new EventSourceSurflet());
-    }
-
+    private SurfletMapper mapper;
     private Socket socket;
 
-    public ThreadedHttpRequestHandler (Socket clientSocket) {
+    public ThreadedHttpRequestHandler (Socket clientSocket, SurfletMapper mapper) {
         this.socket = clientSocket;
+        this.mapper = mapper;
     }
 
     private String getClientAddress () {
@@ -35,11 +28,8 @@ public class ThreadedHttpRequestHandler implements Runnable {
                 HttpRequest request = new HttpRequest(this.socket.getInputStream());
                 HttpResponse response = new HttpResponse(this.socket.getOutputStream());
 
-                if (MAPPER.containsKey(request.getPath())) {
-                    MAPPER.get(request.getPath()).handleRequest(request, response);
-                } else {
-                    MAPPER.get("/404.html").handleRequest(request, response);
-                }
+                Surflet surflet = this.mapper.resolveSurflet(request.getMethod (), request.getPath());
+                surflet.handleRequest(request, response);
 
                 if (request.getHeader ("connection", "keep-alive").equalsIgnoreCase ("close")) {
                     break;

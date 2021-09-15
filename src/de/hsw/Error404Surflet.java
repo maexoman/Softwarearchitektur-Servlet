@@ -1,3 +1,5 @@
+package de.hsw;
+
 public class Error404Surflet implements Surflet {
 
     @Override

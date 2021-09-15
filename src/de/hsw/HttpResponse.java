@@ -1,3 +1,5 @@
+package de.hsw;
+
 import com.google.gson.JsonElement;
 
 import java.io.OutputStream;
@@ -71,7 +73,7 @@ public class HttpResponse {
         REASON_PHRASES.put(431, "Request Header Fields Too Large".getBytes(StandardCharsets.US_ASCII));
         REASON_PHRASES.put(451, "Unavailable For Legal Reasons".getBytes(StandardCharsets.US_ASCII));
 
-        REASON_PHRASES.put(500, "Internal Server Error".getBytes(StandardCharsets.US_ASCII));
+        REASON_PHRASES.put(500, "Internal de.hsw.Server Error".getBytes(StandardCharsets.US_ASCII));
         REASON_PHRASES.put(501, "Not Implemented".getBytes(StandardCharsets.US_ASCII));
         REASON_PHRASES.put(502, "Bad Gateway".getBytes(StandardCharsets.US_ASCII));
         REASON_PHRASES.put(503, "Service Unavailable".getBytes(StandardCharsets.US_ASCII));
@@ -282,7 +284,7 @@ public class HttpResponse {
 
     @Override
     public String toString() {
-        return "HttpResponse{" +
+        return "de.hsw.HttpResponse{" +
                 "headers=" + headers +
                 ", statusLine=" + Arrays.toString(statusLine) +
                 ", headersSent=" + headersSent +

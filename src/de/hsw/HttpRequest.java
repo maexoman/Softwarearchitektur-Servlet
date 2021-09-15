@@ -1,10 +1,31 @@
+package de.hsw;
+
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HttpRequest {
 
     public static final String STR_EMPTY = "";
+    public static final List<String> SUPPORTED_REQUEST_METHODS = Arrays.asList ("GET", "POST", "DELETE");
+    public static final List<String> SUPPORTED_REQUEST_METHODS_INCLUDE_ALL = Stream.concat(
+        SUPPORTED_REQUEST_METHODS.stream(),
+        Arrays.asList ("ALL").stream()
+    ).collect(Collectors.toList());
+
+    public static List<String> getSupportedRequestMethods () {
+        return HttpRequest.getSupportedRequestMethods(false);
+    }
+    public static List<String> getSupportedRequestMethods (boolean includingAll) {
+        if (includingAll == true) {
+            return HttpRequest.SUPPORTED_REQUEST_METHODS_INCLUDE_ALL;
+        }
+        return HttpRequest.SUPPORTED_REQUEST_METHODS;
+    }
 
     private RequestMethod method;
     private String path;
@@ -19,9 +40,24 @@ public class HttpRequest {
 
 
     public enum RequestMethod {
-        GET,
-        POST,
-        DELETE
+        GET ("GET"),
+        POST ("POST"),
+        DELETE ("DELETE");
+
+        private String stringValue;
+
+        RequestMethod (String stringValue) {
+            this.stringValue = stringValue;
+        }
+
+        @Override
+        public String toString() {
+            return this.stringValue;
+        }
+    }
+
+    public RequestMethod getMethod () {
+        return this.method;
     }
 
     private RequestMethod resolveRequestMethod (String method) throws Exception {
@@ -189,7 +225,7 @@ public class HttpRequest {
 
     @Override
     public String toString() {
-        return "HttpRequest{" +
+        return "de.hsw.HttpRequest{" +
                     "method=" + method +
                     ", path='" + path + '\'' +
                     ", version='" + version + '\'' +

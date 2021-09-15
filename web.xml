@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app-config>
+    <servlets>
+        <surflet id="indexJSP" class="some.domain.IndexJSP"/>
+    </servlets>
+    <mappings>
+        <mapping method="GET" path="/" surfletId="indexJSP"/>
+        <mapping method="GET" path="/index" surfletId="indexJSP"/>
+        <mapping method="GET" path="/index.html" surfletId="indexJSP"/>
+    </mappings>
+</app-config>
