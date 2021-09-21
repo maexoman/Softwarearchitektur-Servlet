@@ -13,7 +13,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SurfletMapper {
@@ -38,7 +37,10 @@ public class SurfletMapper {
                     continue;
                 }
                 Element element = (Element) node;
-                classPath = element.getNodeValue();
+                if (element.hasAttributes() == false) {
+                    throw new Exception("Invalid structure");
+                }
+                classPath = element.getAttribute("path");
             }
 
             System.out.println(classPath);

@@ -24,14 +24,17 @@ public class ThreadedHttpRequestHandler implements Runnable {
 
         while (this.socket.isConnected() && this.socket.isClosed() == false) {
             try {
-
                 HttpRequest request = new HttpRequest(this.socket.getInputStream());
                 HttpResponse response = new HttpResponse(this.socket.getOutputStream());
 
                 Surflet surflet = this.mapper.resolveSurflet(request.getMethod (), request.getPath());
                 surflet.handleRequest(request, response);
 
-                if (request.getHeader ("connection", "keep-alive").equalsIgnoreCase ("close")) {
+                if (
+                        request
+                                .getHeader ("connection", "keep-alive")
+                                .equalsIgnoreCase ("close")
+                ) {
                     break;
                 }
 

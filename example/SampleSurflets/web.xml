@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app-config>
-    <servlets>
-        <surflet id="indexJSP" classPath="./" class="de.hsw.examples.surflets.IndexSurflet"/>
-    </servlets>
+    <serverPort>7000</serverPort>
+    <classPath path="/"/>
+    <surflets>
+        <surflet id="indexJSP" class="de.hsw.examples.surflets.IndexSurflet"/>
+    </surflets>
     <mappings>
         <mapping methods="GET, POST, DELETE" path="/" surfletId="indexJSP"/>
         <mapping methods="GET" path="/index" surfletId="indexJSP"/>

@@ -1,15 +1,17 @@
 package de.hsw.examples.surflets;
 
 
-import de.hsw.HttpRequest;
-import de.hsw.HttpRequestBody;
-import de.hsw.HttpResponse;
-import de.hsw.Surflet;
+import de.hsw.*;
 
 public class IndexSurflet implements Surflet {
     @Override
     public void handleRequest(HttpRequest request, HttpResponse response) throws Exception {
-        String name = request.getParameter ("name", "John Doe");
+
+        Session session = SessionManager.getInstance ().loadOrCreateSession(request, response);
+        if (session.has ("name") == false) {
+            session.put ("name", request.getParameter ("name", "John Doe"));
+        }
+        String name = session.get ("name");
 
         response.setContentType(HttpRequestBody.ContentType.TEXT_HTML);
 

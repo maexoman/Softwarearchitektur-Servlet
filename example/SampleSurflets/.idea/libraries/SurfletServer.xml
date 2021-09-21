@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="SurfletServer">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../Surflet/out/artifacts/SurfletServer/SurfletServer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../out/artifacts/SurfletServer/SurfletServer.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

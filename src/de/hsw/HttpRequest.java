@@ -181,6 +181,10 @@ public class HttpRequest {
         return this.headers.get (header);
     }
 
+    public boolean hasHeader (String header) {
+        return this.headers.containsKey (header);
+    }
+
     public HttpRequest (InputStream inputStream) throws Exception {
         this (new UnsafeHttpInputStreamReader (inputStream));
     }

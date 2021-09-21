@@ -16,6 +16,7 @@ public class Server {
     }
 
     public Server (int port) {
+
         this.port = port;
         try {
             this.socket = new ServerSocket(port);

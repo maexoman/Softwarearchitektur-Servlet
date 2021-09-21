@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class HttpResponse {
 
@@ -97,11 +98,17 @@ public class HttpResponse {
     private HttpRequestBody.ContentType contentType = HttpRequestBody.ContentType.TEXT_PLAIN;
     private Charset charset = StandardCharsets.UTF_8;
 
+    private List<Cookie> cookies = new ArrayList<>(5);
+
     public HttpResponse (OutputStream outputStream) {
         this.outputStream = outputStream;
 
         this.headers.put("Content-Length", "0");
         this.headers.put("Connection", "keep-alive");
+    }
+
+    public void addCookie (Cookie cookie) {
+        this.cookies.add (cookie);
     }
 
     private byte[] getReasonPhraseFromStatusCode (int statusCode) throws Exception {
@@ -157,6 +164,15 @@ public class HttpResponse {
         return this.contentType.toString() + "; charset=" + this.charset.toString();
     }
 
+    private void writeCookies () {
+        this.cookies
+            .stream()
+            .forEach(cookie -> {
+                HttpResponse.this.write ("Set-Cookie: " + cookie.toString(), StandardCharsets.US_ASCII);
+                HttpResponse.this.write (CRLF);
+            });
+    }
+
     public HttpResponse sendStatusLineAndHeaders () {
 
         this.write (this.statusLine);
@@ -170,7 +186,10 @@ public class HttpResponse {
             HttpResponse.this.write (key + ": " + value, StandardCharsets.US_ASCII);
             HttpResponse.this.write (CRLF);
         });
+
+        this.writeCookies ();
         this.write (CRLF);
+
         try {
             this.outputStream.flush();
             this.headersSent = true;
