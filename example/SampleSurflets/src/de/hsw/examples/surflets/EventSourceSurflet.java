@@ -1,8 +1,8 @@
 package de.hsw.examples.surflets;
 
-import de.hsw.HttpRequest;
-import de.hsw.HttpResponse;
 import de.hsw.Surflet;
+import de.hsw.http.HttpRequest;
+import de.hsw.http.HttpResponse;
 
 public class EventSourceSurflet implements Surflet {
 
