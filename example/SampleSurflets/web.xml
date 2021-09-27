@@ -6,9 +6,9 @@
         <surflet id="indexJSP" class="de.hsw.examples.surflets.IndexSurflet"/>
     </surflets>
     <mappings>
-        <mapping methods="ALL" path="/secure.html" surfletId="$file"/>
-        <mapping methods="GET, POST, DELETE" path="/" surfletId="indexJSP"/>
-        <mapping methods="GET" path="/index" surfletId="indexJSP"/>
-        <mapping methods="GET" path="/index.html" surfletId="indexJSP"/>
+        <mapping methods="ALL" path="/" surfletId="$file"/>
+        <mapping methods="ALL" path="/index.html" surfletId="$file"/>
+        <mapping methods="ALL" path="/style.css" surfletId="$file"/>
+
     </mappings>
 </app-config>

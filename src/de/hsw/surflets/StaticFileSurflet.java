@@ -39,14 +39,18 @@ public class StaticFileSurflet implements Surflet {
     public void handleRequest(HttpRequest request, HttpResponse response) throws Exception {
 
         String path = request.getPath();
-        int periodIndex = path.lastIndexOf (".");
+
+        if (path.endsWith ("/")) {
+            path += "index.html";
+        }
 
         try {
+            int periodIndex = path.lastIndexOf (".");
             if (periodIndex < 0) {
                 throw new Exception ("No Extension found");
             }
             String extension = path.substring (periodIndex + 1);
-            byte[] bytes = Files.readAllBytes (Paths.get ("www" + request.getPath()));
+            byte[] bytes = Files.readAllBytes (Paths.get ("www" + path));
             response.setContentType (this.getContentTypeFromExtension (extension));
             response.send(bytes);
 
