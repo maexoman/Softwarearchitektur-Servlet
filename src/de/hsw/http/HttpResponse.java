@@ -102,7 +102,7 @@ public class HttpResponse {
 
     // Alle Informationen zum Response-Body:
     private List<Byte> bodyBuffer = new ArrayList<>();
-    private HttpRequestBody.ContentType contentType = HttpRequestBody.ContentType.TEXT_PLAIN;
+    private String contentType = HttpRequestBody.ContentType.TEXT_PLAIN.toString();
     private Charset charset = StandardCharsets.UTF_8;
 
     // Alle Cookies:
@@ -138,6 +138,15 @@ public class HttpResponse {
      * @return Dieses HttpResponse Objekt, damit method chaining verwendet werden kann.
      */
     public HttpResponse setContentType (HttpRequestBody.ContentType contentType) {
+       return this.setContentType (contentType.toString());
+    }
+
+    /**
+     * Hiermit kann der Content-Type des Antwort-Bodys gesetzt werden.
+     * @param contentType Der Content-Type, der gesetzt werden soll.
+     * @return Dieses HttpResponse Objekt, damit method chaining verwendet werden kann.
+     */
+    public HttpResponse setContentType (String contentType) {
         if (this.headersSent == true) {
             System.out.println ("[WARNING]: headers have been sent already. Calling .setContentType has no effect.");
             return this;
@@ -382,7 +391,7 @@ public class HttpResponse {
      * @return Der Wert, der in den Content-Type-Header soll.
      */
     private String resolveContentTypeAndCharset () {
-        return this.contentType.toString() + "; charset=" + this.charset.toString();
+        return this.contentType + "; charset=" + this.charset.toString();
     }
 
     /**

@@ -3,6 +3,7 @@ package de.hsw.server.configs;
 import de.hsw.Surflet;
 import de.hsw.http.HttpRequest;
 import de.hsw.surflets.Error404Surflet;
+import de.hsw.surflets.StaticFileSurflet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -158,6 +159,7 @@ public class SurfletMapper {
 
     private SurfletMapper () {
         this.registerSurflet("$default", (Class) Error404Surflet.class);
+        this.registerSurflet("$file", (Class) StaticFileSurflet.class);
         this.createMapping("ALL", "default", "$default");
     }
 
