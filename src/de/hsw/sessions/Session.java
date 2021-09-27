@@ -34,6 +34,15 @@ public class Session {
     }
 
     /**
+     * Hiermit kann ein beliebiges Objekt in der Session gespeichert werden.
+     * @param name Name des Feldes.
+     * @param data Das zu speichernde Objekt.
+     */
+    public<T> void  put (String name, T data) {
+        this.data.put(name, DataBox.from (data));
+    }
+
+    /**
      * Hiermit kann überprüft werden, ob ein Feld vorhanden ist.
      * @param name Name des Feldes.
      * @return "True", wenn das Feld vorhanden ist, "False" falls nicht.

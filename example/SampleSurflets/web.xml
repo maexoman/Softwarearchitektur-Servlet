@@ -3,12 +3,25 @@
     <serverPort>7000</serverPort>
     <classPath path="/"/>
     <surflets>
-        <surflet id="indexJSP" class="de.hsw.examples.surflets.IndexSurflet"/>
+        <surflet id="register" class="de.hsw.examples.surflets.RegisterSurflet"/>
+        <surflet id="createTask" class="de.hsw.examples.surflets.CreateTask"/>
+        <surflet id="getAllTasks" class="de.hsw.examples.surflets.GetTasks"/>
+        <surflet id="updateOrDeleteTask" class="de.hsw.examples.surflets.UpdateOrDeleteTask"/>
+        <surflet id="indexSurflet" class="de.hsw.examples.surflets.IndexJSP"/>
     </surflets>
     <mappings>
-        <mapping methods="ALL" path="/" surfletId="$file"/>
-        <mapping methods="ALL" path="/index.html" surfletId="$file"/>
-        <mapping methods="ALL" path="/style.css" surfletId="$file"/>
+        <mapping methods="ALL" path="/" surfletId="indexSurflet"/>
+        <mapping methods="ALL" path="/index.html" surfletId="indexSurflet"/>
+        <mapping methods="ALL" path="/main.css" surfletId="$file"/>
+        <mapping methods="ALL" path="/app.js" surfletId="$file"/>
+
+        <mapping methods="POST" path="/tasks" surfletId="createTask"/>
+        <mapping methods="GET" path="/tasks" surfletId="getAllTasks"/>
+        <mapping methods="POST, DELETE" path="/task" surfletId="updateOrDeleteTask"/>
+
+        <mapping methods="POST" path="/signin" surfletId="register"/>
+        <mapping methods="ALL" path="/signin.html" surfletId="$file"/>
+        <mapping methods="ALL" path="/signin.css" surfletId="$file"/>
 
     </mappings>
 </app-config>

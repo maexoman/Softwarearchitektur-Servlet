@@ -16,7 +16,7 @@ public class HttpResponse {
     public static final byte[] HTTP_VERSION = "HTTP/1.1".getBytes(StandardCharsets.US_ASCII);
     public static final byte[] SPACE = " ".getBytes(StandardCharsets.US_ASCII);
     public static final byte[] CRLF = new byte[] {0x0D, 0x0A};
-    private static final byte[] DEFAULT_STATUS_LINE = ("HTTP/1.1 200 OK" + CRLF).getBytes (StandardCharsets.US_ASCII);
+    private static final byte[] DEFAULT_STATUS_LINE = "HTTP/1.1 200 OK".getBytes (StandardCharsets.US_ASCII);
 
     // Hier eine (hoffentlich) vollständige Liste an in RFC2616 (Sec. 6.1.1) definierten Status-Codes:
     private static final Map<Integer, byte[]> REASON_PHRASES = new HashMap<> ();

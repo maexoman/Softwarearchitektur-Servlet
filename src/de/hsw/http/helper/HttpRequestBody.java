@@ -48,7 +48,8 @@ public class HttpRequestBody {
         UNSUPPORTED ("unsupported"),
         TEXT_PLAIN ("text/plain"),
         TEXT_HTML ("text/html"),
-        APPLICATION_JSON ("application/json");
+        APPLICATION_JSON ("application/json"),
+        APPLICATION_X_WWW_FORM_URLENCODED ("application/x-www-form-urlencoded");
 
         private final String toStringValue;
         ContentType (String toStringValue) {
@@ -83,6 +84,7 @@ public class HttpRequestBody {
     private ContentType parseContentType (String typeAndSubtype) {
         switch (typeAndSubtype) {
             case "application/json": return ContentType.APPLICATION_JSON;
+            case "application/x-www-form-urlencoded": return ContentType.APPLICATION_X_WWW_FORM_URLENCODED;
             case "text/plain": return ContentType.TEXT_PLAIN;
             case "text/html": return ContentType.TEXT_HTML;
             default: return ContentType.UNSUPPORTED;
@@ -203,6 +205,14 @@ public class HttpRequestBody {
         }
 
         return this.stringRepresentation;
+    }
+
+    /**
+     * Hiermit kann der Inhalt des Http-Anfragen-Bodys als Form-Data interpretiert und angefordert werden.
+     * @return Der Inhalt des Http-Anfragen-Bodys.
+     */
+    public Map<String, String> asFormData () {
+        return UrlDecodingUtils.parseXWwwFormUrlencoded (this.asText ());
     }
 
     /**

@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<link rel="stylesheet" href="main.css">
+	<link rel="stylesheet" href="signin.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<script src="app.js" defer></script>
 </head>
 <body>
-	<header><div><h1>Hallo $NAME,</h1><h2>hier sind deine ToDo's</h2></div></header>
-	<main>
-		<ul id="tasks"></ul>
-		<button onclick="addNew()"><i class="fas fa-plus"></i></button>
-	</main>
+	<header>Anmeldung</header>
+	<form action="/signin" method="POST">
+		<input type="text" name="username" placeholder="Nutername">
+		<label><i class="fas fa-arrow-right"></i><input type="submit"></label>
+	</form>
 </body>
 </html>

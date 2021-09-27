@@ -4,6 +4,7 @@ import de.hsw.http.helper.HttpRequestBody;
 import de.hsw.http.helper.UnsafeHttpInputStreamReader;
 import de.hsw.errors.ConnectionClosedException;
 import de.hsw.errors.InvalidHttpRequestException;
+import de.hsw.http.helper.UrlDecodingUtils;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -121,17 +122,6 @@ public class HttpRequest {
     }
 
     /**
-     * Hiermit können Special-Characters, die bei der Übertragung in URL-Form umkodiert werden,
-     * wieder zurück kodiert werden.
-     * @param line Die Url.
-     * @return Die zurück kodierte Url.
-     * ! Wichtig: Diese Liste ist nicht vollständig.
-     */
-    private String decodeUrlEncoding (String line) {
-        return line.replace("%20", " ").replace("+", " ");
-    }
-
-    /**
      * Hiermit kann ein Pfad geparsed werden, sodass der eigentliche Pfad + Query-Parameter daraus entstehen.
      * @throws InvalidHttpRequestException
      * ! Wichtig: Es werden nur relative Pfade unterstützt.
@@ -139,58 +129,9 @@ public class HttpRequest {
     private void parsePath () throws InvalidHttpRequestException {
         // Wir unterstützen nur relative Pfade!
         if (this.path.startsWith("/")) {
-            String path = this.path;
-
-            // Suche ein Fragezeichen.
-            int questionmarkIndex = this.path.indexOf('?');
-            if (questionmarkIndex > -1) {
-
-                // Wenn eins gefunden wird, dann soll der String an dieser Stelle zerschnitten werden.
-                // Der vordere Teil ist dann der eigentliche Pfad.
-                // Alles weitere sind Query-Paramter.
-                path = this.path.substring (0, questionmarkIndex);
-                String queryString = this.path.substring (questionmarkIndex + 1);
-
-                // Der Query-String könnte dabei mehrere Parameter enthalten.
-                // Diese wären durch ein "&" getrennt. Also wird an den &s gesplittet:
-                String[] queryParts = queryString.split("&");
-
-                // Gehe nun die einzelnen Teile durch, und zerlege diese in Key-Value-Paare.
-                for (int i = 0; i < queryParts.length; i += 1) {
-                    String q = queryParts [i].trim();
-
-                    if (q.length() == 0) {
-                        continue;
-                    }
-
-                    // Suche nach dem "="
-                    int equalIndex = q.indexOf("=");
-
-                    // Gibt es kein "=", so gibt es auch kein Key-Value-Paar.
-                    // Es kann also weiter gesprungen werden.
-                    if (equalIndex < 0) {
-                        continue;
-                    }
-
-                    // Zerschneide in Key und Value.
-                    String key = q.substring (0, equalIndex).trim ();
-                    String value = q.substring (equalIndex + 1).trim ();
-
-                    if (key.length() == 0) {
-                        continue;
-                    }
-
-                    // Dekodiere das Url-Safe-Kodierte Wertepaar und speichere es bei den Query-Parametern.
-                    this.queryParameter.put (
-                        this.decodeUrlEncoding (key),
-                        this.decodeUrlEncoding (value)
-                    );
-
-                }
-            }
-
-            // Dekodiere den Url-Safe-Kodierten Pfad.
-            this.path = this.decodeUrlEncoding (path);
+            String queryString = UrlDecodingUtils.getQueryString (this.path);
+            this.queryParameter = UrlDecodingUtils.parseXWwwFormUrlencoded (queryString);
+            this.path = UrlDecodingUtils.trimQueryString (this.path);
             return;
         }
         throw new InvalidHttpRequestException ("Absolut Paths and * not implemented");
