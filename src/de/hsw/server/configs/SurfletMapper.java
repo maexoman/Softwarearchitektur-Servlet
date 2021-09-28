@@ -68,7 +68,7 @@ public class SurfletMapper {
             }
 
             // Baue nun den Class-Loader mithilfe des ermittelten ClassPaths:
-            String absolutePath = new File(classPath).getAbsolutePath();
+            String absolutePath = new File(classPath).getPath();
             URL url = new URL(new URL("file:"), absolutePath);
             ClassLoader loader = new URLClassLoader(new URL[] {url});
 

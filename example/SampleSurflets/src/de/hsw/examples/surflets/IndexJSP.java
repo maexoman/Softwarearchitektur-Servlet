@@ -4,8 +4,11 @@ import de.hsw.Surflet;
 import de.hsw.http.HttpRequest;
 import de.hsw.http.HttpResponse;
 import de.hsw.http.helper.HttpRequestBody;
+import de.hsw.sessions.Cookie;
 import de.hsw.sessions.Session;
 import de.hsw.sessions.SessionManager;
+
+import java.util.List;
 
 public class IndexJSP implements Surflet {
     @Override
@@ -15,6 +18,20 @@ public class IndexJSP implements Surflet {
         if (session.isUnsafe() || session.has("username") == false || session.get("username").equals("")) {
             response.status(301).addHeader("Location", "/signin.html").send();
             return;
+        }
+
+
+        /**
+        Cookie c = new Cookie("Name", "Max");
+        Date d = new Date();
+        d.setDate(d.getDate() + 30);
+        c.setExpiration (d);
+        response.addCookie(c);
+         */
+
+        if (request.hasHeader("cookie")) {
+            List<Cookie> cookies = Cookie.fromCookieHeader (request.getHeader("cookie"));
+            cookies.stream().forEach(e -> System.out.println(e.getName() + "=" +  e.getValue()));
         }
 
 
