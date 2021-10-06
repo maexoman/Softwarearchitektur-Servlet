@@ -1,12 +1,10 @@
 package de.hsw.server;
 
-import de.hsw.server.configs.SurfletMapper;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+public class Server implements Runnable {
 
     private ServerSocket socket;
     private int port;
@@ -31,28 +29,28 @@ public class Server {
 
         boolean serverSocketActive = false;
 
-        // Lese die Web.XML und hole daraus die Surflet implementationen.
-        SurfletMapper surfletMapper = SurfletMapper.loadFromFile("web.xml");
-
         // Probiere zunächst das ServerSocket zu erstellen:
         try {
-            this.socket = new ServerSocket(port);
+            this.socket = new ServerSocket (this.port);
             serverSocketActive = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Prüfe, ob das ServerSocket erfolgreich gestartet wurde
-        if (serverSocketActive == false) { return; }
+        if (serverSocketActive == false) {
+            System.out.println("[ERROR]: something went wrong opening a socket.");
+            return;
+        }
 
-        System.out.println("[INFORMATION]: server listening on port 8080");
+        System.out.println("[INFORMATION]: server listening on port " + this.port);
 
         while (this.isRunning) {
             try {
                 // Warte bis ein Client sich verbindet und shiebe ihn dann in einen neuen Thread.
                 Socket client = this.socket.accept();
                 new Thread (
-                        new ThreadedHttpRequestHandler(client, surfletMapper)
+                        new ThreadedHttpRequestHandler(client)
                 ).start ();
             } catch (IOException e) {
                 System.out.println("[ERROR]: some client tried connecting but caused the following error:");
@@ -66,5 +64,11 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void run() {
+        this.start();
     }
 }

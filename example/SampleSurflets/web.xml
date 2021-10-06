@@ -10,10 +10,11 @@
         <surflet id="indexSurflet" class="de.hsw.examples.surflets.IndexJSP"/>
     </surflets>
     <mappings>
-        <mapping methods="ALL" path="/" surfletId="indexSurflet"/>
         <mapping methods="ALL" path="/index.html" surfletId="indexSurflet"/>
         <mapping methods="ALL" path="/main.css" surfletId="$file"/>
         <mapping methods="ALL" path="/app.js" surfletId="$file"/>
+
+
 
         <mapping methods="POST" path="/tasks" surfletId="createTask"/>
         <mapping methods="GET" path="/tasks" surfletId="getAllTasks"/>

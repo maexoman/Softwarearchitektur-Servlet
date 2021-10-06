@@ -153,6 +153,24 @@ public class SurfletMapper {
         return mapper;
     }
 
+    private static SurfletMapper instance = null;
+    public static SurfletMapper getInstance () {
+        return SurfletMapper.getInstance ("web.xml");
+    }
+    public static SurfletMapper getInstance (String path) {
+        if (SurfletMapper.instance == null) {
+            SurfletMapper.instance = SurfletMapper.loadFromFile (path);
+        }
+        return SurfletMapper.instance;
+    }
+    public static void reload () {
+        SurfletMapper.reload("web.xml");
+    }
+    public static void reload (String path) {
+        System.out.println ("[INFORMATION]: surflet mapper reloaded ");
+        SurfletMapper.instance = SurfletMapper.loadFromFile (path);
+    }
+
     // Hier werden die Surflets mit ihrer Id und die Mappings dazu gespeichert:
     private Map<String, Class> surflets = new HashMap<>();
     private Map<String, String> pathMapping = new HashMap<>();
@@ -223,5 +241,10 @@ public class SurfletMapper {
             return new Error404Surflet();
         }
 
+    }
+
+    @Override
+    public String toString () {
+        return "SurfletMapper {pathMappings=" + this.pathMapping + ";surfletMappings=" + this.surflets + "}";
     }
 }

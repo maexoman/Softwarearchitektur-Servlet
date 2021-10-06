@@ -5,9 +5,7 @@ import de.hsw.http.HttpRequest;
 import de.hsw.http.HttpResponse;
 import de.hsw.http.helper.HttpRequestBody;
 
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class StaticFileSurflet implements Surflet {

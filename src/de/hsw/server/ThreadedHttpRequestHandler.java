@@ -12,21 +12,18 @@ import java.net.Socket;
 
 public class ThreadedHttpRequestHandler implements Runnable {
 
-    private SurfletMapper mapper;
     private Socket socket;
     private String clientAddress;
 
     /**
      * Hiermit wird ein Client-Handler für einen Thread erstellt.
      * @param clientSocket
-     * @param mapper
      */
-    public ThreadedHttpRequestHandler (Socket clientSocket, SurfletMapper mapper) {
+    public ThreadedHttpRequestHandler (Socket clientSocket) {
         this.socket = clientSocket;
-        this.mapper = mapper;
-        this.clientAddress = String.format(
+        this.clientAddress = String.format (
             "%s:%d",
-            this.socket.getInetAddress().getHostAddress(),
+            this.socket.getInetAddress ().getHostAddress (),
             this.socket.getPort()
         );
     }
@@ -67,7 +64,7 @@ public class ThreadedHttpRequestHandler implements Runnable {
                 HttpResponse response = new HttpResponse(this.socket.getOutputStream());
 
                 // Hole das Surflet aus dem Mapper und rufe dies mit dem Request und der Antwort auf:
-                Surflet surflet = this.mapper.resolveSurflet(request.getMethod (), request.getPath());
+                Surflet surflet = SurfletMapper.getInstance ().resolveSurflet(request.getMethod (), request.getPath());
                 surflet.handleRequest(request, response);
 
                 // Wenn in dem Request der Header "connection" enthalten ist, und dort "close" drin steht.
